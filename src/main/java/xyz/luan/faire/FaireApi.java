@@ -9,7 +9,6 @@ import xyz.luan.faire.model.product.Product;
 import xyz.luan.faire.model.product.Products;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,7 +60,7 @@ public class FaireApi {
 		return GSON.fromJson(response.content(), Orders.class).getOrders();
 	}
 
-	private HttpFacade request(String path) throws MalformedURLException {
+	protected HttpFacade request(String path) throws IOException {
 		return new HttpFacade(BASE_URL + path).header("X-FAIRE-ACCESS-TOKEN", apiKey);
 	}
 }
