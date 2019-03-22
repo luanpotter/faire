@@ -21,8 +21,15 @@ import java.util.List;
 import static java.util.stream.Collectors.joining;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.when;
 
+/**
+ * This tests the FaireApi class using mocked data obtained directly from the real API.
+ *
+ * It makes sure parsing is done properly and that the objects created actually reflect the reality.
+ * Only the get() method from the HttpFacade is mocked (via mockito), so it's very close to the actual behavior.
+ */
 public class FaireApiTest {
 
 	@Test

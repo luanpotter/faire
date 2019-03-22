@@ -8,10 +8,12 @@ import xyz.luan.faire.model.product.ProductOption;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
+import static xyz.luan.faire.Util.nonEmpty;
 
 public class Faire {
 
@@ -36,21 +38,35 @@ public class Faire {
 
 		Map<String, Product> productsById = products.stream().collect(toMap(Product::getId, identity()));
 
-		orders.stream().filter(o -> o.getState().equals(OrderState.NEW)).forEach(order -> {
-			order.getItems().forEach(item -> {
-				Product product = productsById.get(item.getProductId());
-				ProductOption option = product.getOptions().stream().filter(o -> item.getProductOptionId().equals(o.getId())).findFirst().get();
+		// I need to mock some data in order to test
+		mocks(products, orders);
 
-				int requiredQuantity = item.getQuantity();
-				int availableQuantity = option.getAvailableQuantity();
+		List<ProcessedOrder> processed = orders.stream()
+				.filter(o -> o.getState().equals(OrderState.NEW))
+				.map(order -> {
+					List<ProcessingItem> processingItems = order.getItems().stream().map(item -> {
+						Product product = productsById.get(item.getProductId());
+						Optional<ProductOption> optional = product.getOptions().stream().filter(o -> item.getProductOptionId().equals(o.getId())).findFirst();
+						return optional.map(option -> new ProcessingItem(order, item, product, option));
+					}).flatMap(nonEmpty()).collect(toList());
 
-				System.out.println(requiredQuantity);
-				System.out.println(availableQuantity);
-			});
-		});
-		System.out.println(products.size());
-		System.out.println(orders.size());
-		System.out.println(orders.stream().map(Order::getState).distinct().collect(toList()));
-		System.out.println("---");
+					List<ProcessingItem> noStockedItems = processingItems.stream().filter(ProcessingItem::noStock).collect(toList());
+					if (noStockedItems.isEmpty()) {
+						processingItems.forEach(ProcessingItem::doProcess);
+						return Optional.of(new ProcessedOrder(order, processingItems));
+					} else {
+						noStockedItems.forEach(ProcessingItem::markNoStock);
+						return Optional.<ProcessedOrder>empty();
+					}
+				}).flatMap(nonEmpty()).collect(toList());
+
+		System.out.println(processed.size());
+	}
+
+	private void mocks(List<Product> products, List<Order> orders) {
+		// change state because there's no 'new' orders
+		orders.forEach(o -> o.setState(OrderState.NEW));
+		// add some products because they were mostly out of stock
+		products.forEach(p -> p.getOptions().forEach(o -> o.setAvailableQuantity(o.getAvailableQuantity() + 50)));
 	}
 }

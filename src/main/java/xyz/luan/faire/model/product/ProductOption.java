@@ -30,4 +30,8 @@ public class ProductOption {
 
 	@SerializedName("updated_at")
 	private Instant updatedAt;
+
+	public void removeFromStock(int amount) {
+		this.availableQuantity -= amount;
+	}
 }
