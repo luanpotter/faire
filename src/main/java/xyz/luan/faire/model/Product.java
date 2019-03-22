@@ -3,6 +3,9 @@ package xyz.luan.faire.model;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
+import java.time.Instant;
+import java.util.List;
+
 @Data
 public class Product {
 
@@ -28,4 +31,12 @@ public class Product {
 
 	@SerializedName("unit_multiplier")
 	private int unitMultiplier;
+
+	private List<ProductOption> options;
+
+	@SerializedName("created_at")
+	private Instant createdAt;
+
+	@SerializedName("updated_at")
+	private Instant updatedAt;
 }

@@ -8,14 +8,13 @@ import xyz.luan.faire.model.Products;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FaireApi {
 
-	private static final Gson GSON = new Gson();
-
+	private static final Gson GSON = GsonUtils.build();
 	private static final String BASE_URL = "https://www.faire-stage.com/api/v1";
-	private static final String BRAND_TOKEN = "b_d2481b88";
 
 	private final String apiKey;
 
@@ -24,7 +23,21 @@ public class FaireApi {
 	}
 
 	public List<Product> listProducts() throws IOException {
-		Response response = request("/products").get();
+		int page = 1;
+		List<Product> allProducts = new ArrayList<>();
+		while (true) {
+			List<Product> list = fetchSinglePage(page);
+			if (list.isEmpty()) {
+				break;
+			}
+			allProducts.addAll(list);
+			page++;
+		}
+		return allProducts;
+	}
+
+	private List<Product> fetchSinglePage(int page) throws IOException {
+		Response response = request("/products").query("limit", "250").query("page", String.valueOf(page)).get();
 		String content = response.content();
 		return GSON.fromJson(content, Products.class).getProducts();
 	}
