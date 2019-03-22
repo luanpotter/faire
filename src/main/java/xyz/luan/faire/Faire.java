@@ -1,6 +1,7 @@
 package xyz.luan.faire;
 
-import xyz.luan.faire.model.Product;
+import xyz.luan.faire.model.order.Order;
+import xyz.luan.faire.model.product.Product;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,6 +25,9 @@ public class Faire {
 
 	private void doRun() throws IOException {
 		List<Product> products = api.listProducts();
-		System.out.println(products.get(0));
+		List<Order> orders = api.listOrders();
+		System.out.println(products.size());
+		System.out.println(orders.size());
+		System.out.println("---");
 	}
 }

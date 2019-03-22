@@ -1,4 +1,4 @@
-package xyz.luan.faire.model;
+package xyz.luan.faire.model.product;
 
 import lombok.Data;
 

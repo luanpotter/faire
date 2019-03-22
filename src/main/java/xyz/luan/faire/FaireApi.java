@@ -3,8 +3,10 @@ package xyz.luan.faire;
 import com.google.gson.Gson;
 import xyz.luan.facade.HttpFacade;
 import xyz.luan.facade.Response;
-import xyz.luan.faire.model.Product;
-import xyz.luan.faire.model.Products;
+import xyz.luan.faire.model.order.Order;
+import xyz.luan.faire.model.order.Orders;
+import xyz.luan.faire.model.product.Product;
+import xyz.luan.faire.model.product.Products;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -23,23 +25,40 @@ public class FaireApi {
 	}
 
 	public List<Product> listProducts() throws IOException {
+		return fetchAllPages(this::fetchSingleProductPage);
+	}
+
+	public List<Order> listOrders() throws IOException {
+		return fetchAllPages(this::fetchSingleOrderPage);
+	}
+
+	private <T> List<T> fetchAllPages(Pager<T> p) throws IOException {
 		int page = 1;
-		List<Product> allProducts = new ArrayList<>();
+		List<T> allItems = new ArrayList<>();
 		while (true) {
-			List<Product> list = fetchSinglePage(page);
+			List<T> list = p.fetch(page);
 			if (list.isEmpty()) {
 				break;
 			}
-			allProducts.addAll(list);
+			allItems.addAll(list);
 			page++;
 		}
-		return allProducts;
+		return allItems;
 	}
 
-	private List<Product> fetchSinglePage(int page) throws IOException {
+	@FunctionalInterface
+	private interface Pager<T> {
+		List<T> fetch(int page) throws IOException;
+	}
+
+	private List<Product> fetchSingleProductPage(int page) throws IOException {
 		Response response = request("/products").query("limit", "250").query("page", String.valueOf(page)).get();
-		String content = response.content();
-		return GSON.fromJson(content, Products.class).getProducts();
+		return GSON.fromJson(response.content(), Products.class).getProducts();
+	}
+
+	private List<Order> fetchSingleOrderPage(int page) throws IOException {
+		Response response = request("/orders").query("limit", "50").query("page", String.valueOf(page)).get();
+		return GSON.fromJson(response.content(), Orders.class).getOrders();
 	}
 
 	private HttpFacade request(String path) throws MalformedURLException {
