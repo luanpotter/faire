@@ -1,17 +1,29 @@
 package xyz.luan.faire;
 
+import xyz.luan.faire.model.Product;
+
+import java.io.IOException;
+import java.util.List;
+
 public class Faire {
 
-	private static final String BASE_URL = "https://www.faire-stage.com";
-	private static final String BRAND_TOKEN = "b_d2481b88";
-
-	private final String apiKey;
+	private final FaireApi api;
 
 	public Faire(String apiKey) {
-		this.apiKey = apiKey;
+		this.api = new FaireApi(apiKey);
 	}
 
 	public void run() {
-		System.out.println("Running for apiKey " + apiKey);
+		System.out.println("Running...");
+		try {
+			doRun();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+	}
+
+	private void doRun() throws IOException {
+		List<Product> products = api.listProducts();
+		System.out.println(products.get(0));
 	}
 }
