@@ -1,6 +1,5 @@
 package xyz.luan.faire;
 
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 import xyz.luan.faire.model.order.Order;
 import xyz.luan.faire.model.order.OrderState;
@@ -20,7 +19,6 @@ import static xyz.luan.faire.Util.nonEmpty;
 @NoArgsConstructor
 public class Faire {
 
-	@Getter
 	private FaireApi api;
 
 	public Faire(String apiKey) {
@@ -30,22 +28,21 @@ public class Faire {
 	public void run() {
 		System.out.println("Running...");
 		try {
-			doRun();
+			List<ProcessedOrder> processed = fetchAndProcessOrders();
+			System.out.println(processed.size());
+			System.out.println("The end.");
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
 
-	private void doRun() throws IOException {
-		List<Product> products = getApi().listProducts();
-		List<Order> orders = getApi().listOrders();
+	public List<ProcessedOrder> fetchAndProcessOrders() throws IOException {
+		List<Product> products = fetchProducts();
+		List<Order> orders = fetchOrders();
 
 		Map<String, Product> productsById = products.stream().collect(toMap(Product::getId, identity()));
 
-		// I need to mock some data in order to test
-		mocks(products, orders);
-
-		List<ProcessedOrder> processed = orders.stream()
+		return orders.stream()
 				.filter(o -> o.getState().equals(OrderState.NEW))
 				.map(order -> {
 					List<ProcessingItem> processingItems = order.getItems().stream().map(item -> {
@@ -63,14 +60,24 @@ public class Faire {
 						return Optional.<ProcessedOrder>empty();
 					}
 				}).flatMap(nonEmpty()).collect(toList());
-
-		System.out.println(processed.size());
 	}
 
-	private void mocks(List<Product> products, List<Order> orders) {
+	public List<Order> fetchOrders() throws IOException {
+		List<Order> orders = api.listOrders();
+
 		// change state because there's no 'new' orders
 		orders.forEach(o -> o.setState(OrderState.NEW));
+
+		return orders;
+	}
+
+	public List<Product> fetchProducts() throws IOException {
+		List<Product> products = api.listProducts();
+
 		// add some products because they were mostly out of stock
 		products.forEach(p -> p.getOptions().forEach(o -> o.setAvailableQuantity(o.getAvailableQuantity() + 50)));
+
+
+		return products;
 	}
 }
