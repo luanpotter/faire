@@ -8,6 +8,8 @@ import java.util.List;
 public class Products {
 
 	private List<Product> products;
+
 	private int page;
+
 	private int limit;
 }

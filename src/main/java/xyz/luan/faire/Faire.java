@@ -1,5 +1,7 @@
 package xyz.luan.faire;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import xyz.luan.faire.model.order.Order;
 import xyz.luan.faire.model.order.OrderState;
 import xyz.luan.faire.model.product.Product;
@@ -15,9 +17,11 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static xyz.luan.faire.Util.nonEmpty;
 
+@NoArgsConstructor
 public class Faire {
 
-	private final FaireApi api;
+	@Getter
+	private FaireApi api;
 
 	public Faire(String apiKey) {
 		this.api = new FaireApi(apiKey);
@@ -33,8 +37,8 @@ public class Faire {
 	}
 
 	private void doRun() throws IOException {
-		List<Product> products = api.listProducts();
-		List<Order> orders = api.listOrders();
+		List<Product> products = getApi().listProducts();
+		List<Order> orders = getApi().listOrders();
 
 		Map<String, Product> productsById = products.stream().collect(toMap(Product::getId, identity()));
 
