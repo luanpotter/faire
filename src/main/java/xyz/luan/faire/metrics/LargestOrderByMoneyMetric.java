@@ -1,6 +1,6 @@
 package xyz.luan.faire.metrics;
 
-import xyz.luan.faire.ProcessedOrder;
+import xyz.luan.faire.model.processed.ProcessedOrder;
 import xyz.luan.faire.model.order.Order;
 
 import java.util.Comparator;

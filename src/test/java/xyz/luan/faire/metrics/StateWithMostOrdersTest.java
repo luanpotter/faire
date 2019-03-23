@@ -1,7 +1,7 @@
 package xyz.luan.faire.metrics;
 
 import org.junit.Test;
-import xyz.luan.faire.ProcessedOrder;
+import xyz.luan.faire.model.processed.ProcessedOrder;
 import xyz.luan.faire.model.order.Address;
 import xyz.luan.faire.model.order.Order;
 

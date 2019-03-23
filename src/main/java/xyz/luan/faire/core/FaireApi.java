@@ -1,8 +1,9 @@
-package xyz.luan.faire;
+package xyz.luan.faire.core;
 
 import com.google.gson.Gson;
 import xyz.luan.facade.HttpFacade;
 import xyz.luan.facade.Response;
+import xyz.luan.faire.util.GsonUtils;
 import xyz.luan.faire.model.order.Order;
 import xyz.luan.faire.model.order.Orders;
 import xyz.luan.faire.model.product.Product;

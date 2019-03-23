@@ -1,4 +1,4 @@
-package xyz.luan.faire.setup;
+package xyz.luan.faire.util;
 
 import lombok.experimental.UtilityClass;
 import xyz.luan.faire.model.product.Product;

@@ -1,7 +1,7 @@
 package xyz.luan.faire.metrics;
 
-import xyz.luan.faire.ProcessedOrder;
-import xyz.luan.faire.ProcessingItem;
+import xyz.luan.faire.model.processed.ProcessedOrder;
+import xyz.luan.faire.model.processed.ProcessingItem;
 import xyz.luan.faire.model.product.ProductOption;
 
 import java.util.List;

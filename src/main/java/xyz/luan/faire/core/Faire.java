@@ -1,8 +1,10 @@
-package xyz.luan.faire;
+package xyz.luan.faire.core;
 
 import lombok.NoArgsConstructor;
 import xyz.luan.faire.model.order.Order;
 import xyz.luan.faire.model.order.OrderState;
+import xyz.luan.faire.model.processed.ProcessedOrder;
+import xyz.luan.faire.model.processed.ProcessingItem;
 import xyz.luan.faire.model.product.Product;
 import xyz.luan.faire.model.product.ProductOption;
 
@@ -14,7 +16,7 @@ import java.util.Optional;
 import static java.util.function.Function.identity;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
-import static xyz.luan.faire.Util.nonEmpty;
+import static xyz.luan.faire.util.Util.nonEmpty;
 
 @NoArgsConstructor
 public class Faire {

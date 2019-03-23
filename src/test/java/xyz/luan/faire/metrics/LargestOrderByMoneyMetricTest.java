@@ -1,8 +1,8 @@
 package xyz.luan.faire.metrics;
 
 import org.junit.Test;
-import xyz.luan.faire.ProcessedOrder;
-import xyz.luan.faire.ProcessingItem;
+import xyz.luan.faire.model.processed.ProcessedOrder;
+import xyz.luan.faire.model.processed.ProcessingItem;
 import xyz.luan.faire.model.order.Order;
 import xyz.luan.faire.model.order.OrderItem;
 import xyz.luan.faire.model.product.ProductOption;
@@ -13,8 +13,8 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static xyz.luan.faire.setup.TestUtils.createSwitch;
-import static xyz.luan.faire.setup.TestUtils.createToaster;
+import static xyz.luan.faire.util.TestUtils.createSwitch;
+import static xyz.luan.faire.util.TestUtils.createToaster;
 
 public class LargestOrderByMoneyMetricTest {
 

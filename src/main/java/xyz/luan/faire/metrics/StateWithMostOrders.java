@@ -1,7 +1,7 @@
 package xyz.luan.faire.metrics;
 
 import lombok.Getter;
-import xyz.luan.faire.ProcessedOrder;
+import xyz.luan.faire.model.processed.ProcessedOrder;
 
 import java.util.Comparator;
 import java.util.List;

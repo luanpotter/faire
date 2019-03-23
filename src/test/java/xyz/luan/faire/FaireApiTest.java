@@ -4,6 +4,7 @@ import org.junit.Test;
 import org.mockito.invocation.InvocationOnMock;
 import xyz.luan.facade.HttpFacade;
 import xyz.luan.facade.mock.MockedResponse;
+import xyz.luan.faire.core.FaireApi;
 import xyz.luan.faire.model.order.Order;
 import xyz.luan.faire.model.order.OrderItem;
 import xyz.luan.faire.model.order.OrderState;
@@ -19,7 +20,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
-import static xyz.luan.faire.setup.TestUtils.fileContent;
+import static xyz.luan.faire.util.TestUtils.fileContent;
 
 /**
  * This tests the FaireApi class using mocked data obtained directly from the real API.

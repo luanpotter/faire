@@ -1,9 +1,12 @@
 package xyz.luan.faire;
 
 import org.junit.Test;
+import xyz.luan.faire.core.Faire;
 import xyz.luan.faire.model.order.Order;
 import xyz.luan.faire.model.order.OrderItem;
 import xyz.luan.faire.model.order.OrderState;
+import xyz.luan.faire.model.processed.ProcessedOrder;
+import xyz.luan.faire.model.processed.ProcessingItem;
 import xyz.luan.faire.model.product.Product;
 import xyz.luan.faire.model.product.ProductOption;
 
@@ -18,7 +21,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
-import static xyz.luan.faire.setup.TestUtils.createToaster;
+import static xyz.luan.faire.util.TestUtils.createToaster;
 
 public class FaireTest {
 

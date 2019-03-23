@@ -1,5 +1,7 @@
 package xyz.luan.faire;
 
+import xyz.luan.faire.core.Faire;
+
 public class Main {
 
 	public static void main(String[] args) {

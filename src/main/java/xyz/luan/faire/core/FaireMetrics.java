@@ -1,9 +1,10 @@
-package xyz.luan.faire;
+package xyz.luan.faire.core;
 
 import xyz.luan.faire.metrics.LargestOrderByMoneyMetric;
 import xyz.luan.faire.metrics.MostSoldOptionMetric;
 import xyz.luan.faire.metrics.StateWithMostOrders;
 import xyz.luan.faire.model.order.Order;
+import xyz.luan.faire.model.processed.ProcessedOrder;
 import xyz.luan.faire.model.product.ProductOption;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package xyz.luan.faire;
+package xyz.luan.faire.model.processed;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
