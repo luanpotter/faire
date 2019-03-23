@@ -1,9 +1,6 @@
 package xyz.luan.faire.core;
 
-import xyz.luan.faire.metrics.CheapestCarrierPerQuantityMetrics;
-import xyz.luan.faire.metrics.LargestOrderByMoneyMetric;
-import xyz.luan.faire.metrics.MostSoldOptionMetric;
-import xyz.luan.faire.metrics.StateWithMostOrdersMetric;
+import xyz.luan.faire.metrics.*;
 import xyz.luan.faire.model.order.Carrier;
 import xyz.luan.faire.model.order.Order;
 import xyz.luan.faire.model.processed.ProcessedOrder;
@@ -32,5 +29,7 @@ public class FaireMetrics {
 		Carrier carrier = new CheapestCarrierPerQuantityMetrics().run(orders);
 		System.out.println("The on average cheapest carrier per quantity: " + carrier);
 
+		String statePayLess = new StateWitchPaysTheLessPerUnityMetric().run(orders);
+		System.out.println("The state witch pays the less per unity on average: " + statePayLess);
 	}
 }

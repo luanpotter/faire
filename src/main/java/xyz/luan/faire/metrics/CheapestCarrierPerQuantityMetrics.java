@@ -14,6 +14,9 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.groupingBy;
 
+/**
+ * This Metric determines, on average, what is the cheapest carrier per unit amount of product.
+ */
 public class CheapestCarrierPerQuantityMetrics {
 
 	public Carrier run(List<ProcessedOrder> orders) {
