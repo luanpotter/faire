@@ -2,6 +2,7 @@ package xyz.luan.faire;
 
 import xyz.luan.faire.metrics.LargestOrderByMoneyMetric;
 import xyz.luan.faire.metrics.MostSoldOptionMetric;
+import xyz.luan.faire.metrics.StateWithMostOrders;
 import xyz.luan.faire.model.order.Order;
 import xyz.luan.faire.model.product.ProductOption;
 
@@ -21,5 +22,8 @@ public class FaireMetrics {
 
 		Order largestOrderByMoney = new LargestOrderByMoneyMetric().run(orders);
 		System.out.println("The largest order by dollar amount: " + largestOrderByMoney.getId());
+
+		String state = new StateWithMostOrders().run(orders);
+		System.out.println("The state with the most orders: " + state);
 	}
 }
