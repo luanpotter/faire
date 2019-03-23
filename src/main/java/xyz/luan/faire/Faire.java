@@ -30,6 +30,9 @@ public class Faire {
 		try {
 			List<ProcessedOrder> processed = fetchAndProcessOrders();
 			System.out.println(processed.size());
+
+			new FaireMetrics(processed).run();
+
 			System.out.println("The end.");
 		} catch (IOException e) {
 			throw new RuntimeException(e);
