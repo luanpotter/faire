@@ -9,7 +9,7 @@ Use Maven 3.6+ or more and Java 8.
 Go to the root folder and run:
 
 ```bash
-    ./cmds/build.sh
+./cmds/build.sh
 ```
 
 This will download all dependencies using maven an make sure everything is fine.
@@ -21,7 +21,7 @@ If you are using Intellij IDEA, you should consider installing the [Lombok plugi
 To run, use the following command:
 
 ```bash
-    ./cmds/run.sh <api_key>
+./cmds/run.sh <api_key>
 ```
 
 Where `<api_key>` is the API key you must provide to access the API (you need to attain one to use this).
