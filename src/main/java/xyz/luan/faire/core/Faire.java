@@ -82,7 +82,6 @@ public class Faire {
 		// MOCK add some products because they were mostly out of stock
 		products.forEach(p -> p.getOptions().forEach(o -> o.setAvailableQuantity(o.getAvailableQuantity() + 500)));
 
-
 		return products;
 	}
 }

@@ -3,6 +3,7 @@ package xyz.luan.faire.model.order;
 import com.google.gson.annotations.SerializedName;
 
 public enum Carrier {
+
 	@SerializedName("canada_post")
 	CANADA_POST,
 

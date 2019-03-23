@@ -11,5 +11,6 @@ import java.util.List;
 public class ProcessedOrder {
 
 	private Order order;
+
 	private List<ProcessingItem> items;
 }

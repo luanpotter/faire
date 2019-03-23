@@ -21,8 +21,8 @@ public class StateWitchPaysTheLessPerUnityMetric {
 
 	@Getter
 	class State {
-		String state;
-		double averagePerItem;
+		private String state;
+		private double averagePerItem;
 
 		public State(Map.Entry<String, List<ProcessedOrder>> entry) {
 			this.state = entry.getKey();

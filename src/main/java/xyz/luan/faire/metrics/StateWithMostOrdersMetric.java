@@ -23,8 +23,8 @@ public class StateWithMostOrdersMetric {
 
 	@Getter
 	class State {
-		String state;
-		int amountOfOrders;
+		private String state;
+		private int amountOfOrders;
 
 		public State(Map.Entry<String, List<ProcessedOrder>> entry) {
 			this.state = entry.getKey();

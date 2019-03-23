@@ -15,9 +15,13 @@ import java.time.Instant;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProcessingItem {
+
 	private Order order;
+
 	private OrderItem item;
+
 	private Product product;
+
 	private ProductOption option;
 
 	public boolean noStock() {
