@@ -31,7 +31,7 @@ public class Faire {
 		System.out.println("Running...");
 		try {
 			List<ProcessedOrder> processed = fetchAndProcessOrders();
-			System.out.println(processed.size());
+			System.out.println("Processed " + processed.size() + " entries.");
 
 			new FaireMetrics(processed).run();
 
@@ -43,16 +43,16 @@ public class Faire {
 
 	public List<ProcessedOrder> fetchAndProcessOrders() throws IOException {
 		List<Product> products = fetchProducts();
-		List<Order> orders = fetchOrders();
-
 		Map<String, Product> productsById = products.stream().collect(toMap(Product::getId, identity()));
+
+		List<Order> orders = fetchOrders();
 
 		return orders.stream()
 				.filter(o -> o.getState().equals(OrderState.NEW))
 				.map(order -> {
 					List<ProcessingItem> processingItems = order.getItems().stream().map(item -> {
 						Product product = productsById.get(item.getProductId());
-						Optional<ProductOption> optional = product.getOptions().stream().filter(o -> item.getProductOptionId().equals(o.getId())).findFirst();
+						Optional<ProductOption> optional = product.findOptionById(item.getProductOptionId());
 						return optional.map(option -> new ProcessingItem(order, item, product, option));
 					}).flatMap(nonEmpty()).collect(toList());
 
@@ -70,7 +70,7 @@ public class Faire {
 	public List<Order> fetchOrders() throws IOException {
 		List<Order> orders = api.listOrders();
 
-		// change state because there's no 'new' orders
+		// MOCK change state because there's no 'new' orders
 		orders.forEach(o -> o.setState(OrderState.NEW));
 
 		return orders;
@@ -79,8 +79,8 @@ public class Faire {
 	public List<Product> fetchProducts() throws IOException {
 		List<Product> products = api.listProducts();
 
-		// add some products because they were mostly out of stock
-		products.forEach(p -> p.getOptions().forEach(o -> o.setAvailableQuantity(o.getAvailableQuantity() + 50)));
+		// MOCK add some products because they were mostly out of stock
+		products.forEach(p -> p.getOptions().forEach(o -> o.setAvailableQuantity(o.getAvailableQuantity() + 500)));
 
 
 		return products;

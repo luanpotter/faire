@@ -9,7 +9,7 @@ import java.util.Map;
 
 import static java.util.stream.Collectors.groupingBy;
 
-public class StateWithMostOrders {
+public class StateWithMostOrdersMetric {
 
 	public String run(List<ProcessedOrder> orders) {
 		return orders.stream()

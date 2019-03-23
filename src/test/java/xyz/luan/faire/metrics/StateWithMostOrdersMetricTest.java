@@ -12,7 +12,7 @@ import static java.util.Collections.emptyList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-public class StateWithMostOrdersTest {
+public class StateWithMostOrdersMetricTest {
 
 	@Test
 	public void testStateWithMostOrders() {
@@ -25,7 +25,7 @@ public class StateWithMostOrdersTest {
 				createOrder("o6", "NY")
 		);
 
-		String state = new StateWithMostOrders().run(orders);
+		String state = new StateWithMostOrdersMetric().run(orders);
 		assertThat(state, equalTo("NY"));
 	}
 

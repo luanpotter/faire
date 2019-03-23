@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
 
 @Data
 public class Product {
@@ -39,4 +40,8 @@ public class Product {
 
 	@SerializedName("updated_at")
 	private Instant updatedAt;
+
+	public Optional<ProductOption> findOptionById(String id) {
+		return getOptions().stream().filter(o -> o.getId().equals(id)).findFirst();
+	}
 }
