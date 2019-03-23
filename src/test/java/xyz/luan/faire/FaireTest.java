@@ -18,6 +18,7 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.spy;
+import static xyz.luan.faire.setup.TestUtils.createToaster;
 
 public class FaireTest {
 
@@ -81,20 +82,6 @@ public class FaireTest {
 		ProductOption option = toaster.getOptions().get(0);
 		assertThat(option.getAvailableQuantity(), equalTo(10));
 		assertThat(option.getBackorderedUntil(), notNullValue());
-	}
-
-	private Product createToaster() {
-		ProductOption option = new ProductOption();
-		option.setId("po_toaster");
-		option.setAvailableQuantity(10);
-		option.setActive(true);
-		option.setProductId("p_toaster");
-
-		Product product = new Product();
-		product.setId("p_toaster");
-		product.setName("Toaster Bonanza");
-		product.setOptions(singletonList(option));
-		return product;
 	}
 
 	private Faire mockFaire(List<Product> products, List<Order> orders) throws IOException {

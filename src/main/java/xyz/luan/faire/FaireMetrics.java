@@ -1,6 +1,8 @@
 package xyz.luan.faire;
 
+import xyz.luan.faire.metrics.LargestOrderByMoneyMetric;
 import xyz.luan.faire.metrics.MostSoldOptionMetric;
+import xyz.luan.faire.model.order.Order;
 import xyz.luan.faire.model.product.ProductOption;
 
 import java.util.List;
@@ -15,6 +17,9 @@ public class FaireMetrics {
 
 	public void run() {
 		ProductOption mostSoldOption = new MostSoldOptionMetric().run(orders);
-		System.out.println("Most sold product option: " + mostSoldOption.getName());
+		System.out.println("The best selling product option: " + mostSoldOption.getId());
+
+		Order largestOrderByMoney = new LargestOrderByMoneyMetric().run(orders);
+		System.out.println("The largest order by dollar amount: " + largestOrderByMoney.getId());
 	}
 }

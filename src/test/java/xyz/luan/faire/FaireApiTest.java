@@ -10,23 +10,20 @@ import xyz.luan.faire.model.order.OrderState;
 import xyz.luan.faire.model.product.Product;
 import xyz.luan.faire.model.product.ProductOption;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
 
-import static java.util.stream.Collectors.joining;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
+import static xyz.luan.faire.setup.TestUtils.fileContent;
 
 /**
  * This tests the FaireApi class using mocked data obtained directly from the real API.
- *
+ * <p>
  * It makes sure parsing is done properly and that the objects created actually reflect the reality.
  * Only the get() method from the HttpFacade is mocked (via mockito), so it's very close to the actual behavior.
  */
@@ -85,10 +82,5 @@ public class FaireApiTest {
 				return request;
 			}
 		};
-	}
-
-	private String fileContent(String mockFileName) {
-		InputStream stream = FaireApiTest.class.getResourceAsStream("/" + mockFileName);
-		return new BufferedReader(new InputStreamReader(stream)).lines().collect(joining("\n"));
 	}
 }
