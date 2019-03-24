@@ -29,7 +29,7 @@ public class StateWitchPaysTheLessPerUnityMetricTest {
 	}
 
 	@Test
-	public void testStateWitchPaysTheLessPerUnity() {
+	public void testStateWitchPaysTheLessPerUnityComplexCase() {
 		List<ProcessedOrder> orders = Arrays.asList(
 				createOrder("o1", "NY", item(100, 10)),
 				createOrder("o2", "CA", item(1, 40), item(20, 1)),

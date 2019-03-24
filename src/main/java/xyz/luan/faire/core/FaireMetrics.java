@@ -15,7 +15,8 @@ public class FaireMetrics {
 			new LargestOrderByMoneyMetric(),
 			new StateWithMostOrdersMetric(),
 			new CheapestCarrierPerQuantityMetrics(),
-			new StateWitchPaysTheLessPerUnityMetric()
+			new StateWitchPaysTheLessPerUnityMetric(),
+			new CountryWithMostDisperseOrdersByTotalPrice()
 	);
 
 	private List<ProcessedOrder> orders;
