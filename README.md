@@ -1,6 +1,6 @@
 # faire-backend
 
-[![Build Status](https://travis-ci.org/luanpotter/faire.svg?branch=master)](https://travis-ci.org/luanpotter/faire)
+[![Build Status](https://travis-ci.org/luanpotter/faire.svg?branch=new-stuff)](https://travis-ci.org/luanpotter/faire)
 
 This is a solution I made for the Faire Backend Exercise.
 
