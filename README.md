@@ -8,7 +8,7 @@ This is a solution I made for the Faire Backend Exercise.
 
 ## Setup
 
-Use Maven 3.6+ or more and Java 8.
+Use Maven 3.6+ and Java 8.
 
 Go to the root folder and run:
 
