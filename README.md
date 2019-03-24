@@ -4,6 +4,8 @@
 
 This is a solution I made for the Faire Backend Exercise.
 
+*new-stuff*: this branch has more stuff that I was able to do in the time until the interview; mainly I intend to add more tests to reach more edge cases now.
+
 ## Setup
 
 Use Maven 3.6+ or more and Java 8.
