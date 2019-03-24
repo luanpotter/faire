@@ -1,9 +1,6 @@
-package xyz.luan.faire;
+package xyz.luan.faire.core;
 
 import org.junit.Test;
-import org.mockito.invocation.InvocationOnMock;
-import xyz.luan.facade.HttpFacade;
-import xyz.luan.facade.mock.MockedResponse;
 import xyz.luan.faire.core.FaireApi;
 import xyz.luan.faire.model.order.Order;
 import xyz.luan.faire.model.order.OrderItem;
@@ -18,9 +15,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.spy;
-import static org.mockito.Mockito.when;
-import static xyz.luan.faire.util.TestUtils.fileContent;
+import static xyz.luan.faire.util.TestUtils.mockFaireApi;
 
 /**
  * This tests the FaireApi class using mocked data obtained directly from the real API.
@@ -32,7 +27,7 @@ public class FaireApiTest {
 
 	@Test
 	public void testParseProducts() throws IOException {
-		FaireApi api = mockedApi();
+		FaireApi api = mockFaireApi();
 
 		List<Product> products = api.listProducts();
 		assertThat(products.size(), equalTo(20));
@@ -51,7 +46,7 @@ public class FaireApiTest {
 
 	@Test
 	public void testParseOrders() throws IOException {
-		FaireApi api = mockedApi();
+		FaireApi api = mockFaireApi();
 
 		List<Order> orders = api.listOrders();
 		assertThat(orders.size(), equalTo(93));
@@ -66,22 +61,5 @@ public class FaireApiTest {
 		assertThat(item.getId(), equalTo("oi_9b8e275tab"));
 		assertThat(item.getProductId(), equalTo("p_c2dny7bu"));
 		assertThat(item.getQuantity(), equalTo(6));
-	}
-
-	private FaireApi mockedApi() {
-		return new FaireApi(null) {
-			protected HttpFacade request(String path) throws IOException {
-				HttpFacade request = spy(new HttpFacade(path));
-				when(request.get()).then((InvocationOnMock obj) -> {
-					String url = ((HttpFacade) obj.getMock()).getUrl();
-					String mockFileName = url
-							.replaceAll("^http:///", "")
-							.replaceAll("[?&]", "-");
-					String content = fileContent(mockFileName);
-					return new MockedResponse().withStatus(200).withContent(content);
-				});
-				return request;
-			}
-		};
 	}
 }

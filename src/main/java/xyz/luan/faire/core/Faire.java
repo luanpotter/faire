@@ -1,5 +1,6 @@
 package xyz.luan.faire.core;
 
+import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import xyz.luan.faire.model.order.Order;
 import xyz.luan.faire.model.order.OrderState;
@@ -19,6 +20,7 @@ import static java.util.stream.Collectors.toMap;
 import static xyz.luan.faire.util.Util.nonEmpty;
 
 @NoArgsConstructor
+@AllArgsConstructor
 public class Faire {
 
 	private FaireApi api;
@@ -86,3 +88,4 @@ public class Faire {
 		return products;
 	}
 }
+

@@ -12,14 +12,14 @@ import java.time.format.DateTimeFormatter;
 @UtilityClass
 public class GsonUtils {
 
-	public final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'.000Z'").withZone(ZoneOffset.UTC);
-	public final JsonDeserializer<Instant> ADAPTER = (json, type, jsonDeserializationContext) -> parseTimestamp(json.getAsJsonPrimitive().getAsString());
+	public static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyyMMdd'T'HHmmss'.000Z'").withZone(ZoneOffset.UTC);
+	public static final JsonDeserializer<Instant> ADAPTER = (json, type, jsonDeserializationContext) -> parseTimestamp(json.getAsJsonPrimitive().getAsString());
 
-	public Instant parseTimestamp(String str) {
+	public static Instant parseTimestamp(String str) {
 		return FORMATTER.parse(str, Instant::from);
 	}
 
-	public Gson build() {
+	public static Gson build() {
 		return new GsonBuilder().registerTypeAdapter(Instant.class, ADAPTER).create();
 
 	}

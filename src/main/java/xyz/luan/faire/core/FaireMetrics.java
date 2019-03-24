@@ -10,7 +10,7 @@ import static java.util.stream.Collectors.joining;
 
 public class FaireMetrics {
 
-	private static final List<Metric> METRICS = Arrays.asList(
+	private static final List<Metric<?>> METRICS = Arrays.asList(
 			new MostSoldOptionMetric(),
 			new LargestOrderByMoneyMetric(),
 			new StateWithMostOrdersMetric(),

@@ -18,7 +18,18 @@ import static org.hamcrest.MatcherAssert.assertThat;
 public class CheapestCarrierPerQuantityMetricsTest {
 
 	@Test
-	public void testStateWithMostOrders() {
+	public void testCheapestCarrierSimpleScenario() {
+		List<ProcessedOrder> orders = Arrays.asList(
+				createOrder("o1", Carrier.DHL_ECOMMERCE, 100, item(10)),
+				createOrder("o2", Carrier.DHL_EXPRESS, 200, item(40))
+		);
+
+		Carrier carrier = new CheapestCarrierPerQuantityMetrics().process(orders);
+		assertThat(carrier, equalTo(Carrier.DHL_EXPRESS));
+	}
+
+	@Test
+	public void testCheapestCarrierComplexScenario() {
 		List<ProcessedOrder> orders = Arrays.asList(
 				createOrder("o1", Carrier.CANADA_POST, 3000, item(100), item(200)),
 				createOrder("o2", Carrier.FEDEX, 20, item(1)),
@@ -26,8 +37,8 @@ public class CheapestCarrierPerQuantityMetricsTest {
 				createOrder("o4", Carrier.FEDEX, 200, item(10))
 		);
 
-		Carrier state = new CheapestCarrierPerQuantityMetrics().process(orders);
-		assertThat(state, equalTo(Carrier.CANADA_POST));
+		Carrier carrier = new CheapestCarrierPerQuantityMetrics().process(orders);
+		assertThat(carrier, equalTo(Carrier.CANADA_POST));
 	}
 
 	private OrderItem item(int amount) {
@@ -37,13 +48,15 @@ public class CheapestCarrierPerQuantityMetricsTest {
 	}
 
 	private ProcessedOrder createOrder(String id, Carrier carrier, int shipmentPrice, OrderItem... items) {
-		Order order = new Order();
-		order.setId(id);
 		Shipment shipment = new Shipment();
 		shipment.setCarrier(carrier);
 		shipment.setMakerCostCents(shipmentPrice);
+
+		Order order = new Order();
+		order.setId(id);
 		order.setShipments(singletonList(shipment));
 		order.setItems(Arrays.asList(items));
+
 		return new ProcessedOrder(order, emptyList());
 	}
 }

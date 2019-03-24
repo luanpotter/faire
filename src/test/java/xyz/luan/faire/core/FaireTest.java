@@ -1,4 +1,4 @@
-package xyz.luan.faire;
+package xyz.luan.faire.core;
 
 import org.junit.Test;
 import xyz.luan.faire.core.Faire;
@@ -19,9 +19,8 @@ import static java.util.Collections.singletonList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.spy;
 import static xyz.luan.faire.util.TestUtils.createToaster;
+import static xyz.luan.faire.util.TestUtils.mockFaire;
 
 public class FaireTest {
 
@@ -85,14 +84,5 @@ public class FaireTest {
 		ProductOption option = toaster.getOptions().get(0);
 		assertThat(option.getAvailableQuantity(), equalTo(10));
 		assertThat(option.getBackorderedUntil(), notNullValue());
-	}
-
-	private Faire mockFaire(List<Product> products, List<Order> orders) throws IOException {
-		Faire faire = spy(new Faire());
-
-		doReturn(orders).when(faire).fetchOrders();
-		doReturn(products).when(faire).fetchProducts();
-
-		return faire;
 	}
 }
