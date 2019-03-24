@@ -16,10 +16,15 @@ import static java.util.stream.Collectors.groupingBy;
 
 /**
  * This Metric determines, on average, what is the cheapest carrier per unit amount of product.
+ * <p>
+ * For each Carrier, it makes an average of every shipment price divided by the amount of goods that were shipped.
+ * Then, it gets the Carrier with the smallest average.
+ * Of course it assumes all unity of items are similar in size and weight to each other, but that's just an estimate.
  */
-public class CheapestCarrierPerQuantityMetrics {
+public class CheapestCarrierPerQuantityMetrics implements Metric<Carrier> {
 
-	public Carrier run(List<ProcessedOrder> orders) {
+	@Override
+	public Carrier process(List<ProcessedOrder> orders) {
 		return orders.stream()
 				.flatMap(e -> e.getOrder().getShipments().stream().map(s -> new ShipmentOrder(s, e.getOrder())))
 				.filter(e -> e.getShipment().getCarrier() != null)
@@ -29,6 +34,14 @@ public class CheapestCarrierPerQuantityMetrics {
 				.min(Comparator.comparing(CarrierGroup::getAveragePrice))
 				.map(CarrierGroup::getCarrier)
 				.orElse(null);
+	}
+
+	@Override
+	public String print(Carrier carrier) {
+		if (carrier == null) {
+			return "The on average cheapest carrier per quantity: not found, no orders with carriers";
+		}
+		return "The on average cheapest carrier per quantity: " + carrier;
 	}
 
 	@Getter

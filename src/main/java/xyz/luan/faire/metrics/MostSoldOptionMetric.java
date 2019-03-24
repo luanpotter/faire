@@ -2,15 +2,22 @@ package xyz.luan.faire.metrics;
 
 import xyz.luan.faire.model.processed.ProcessedOrder;
 import xyz.luan.faire.model.processed.ProcessingItem;
+import xyz.luan.faire.model.processed.ProductOptionWithProduct;
+import xyz.luan.faire.model.product.Product;
 import xyz.luan.faire.model.product.ProductOption;
 
 import java.util.List;
 
 import static java.util.stream.Collectors.groupingBy;
 
-public class MostSoldOptionMetric {
+/**
+ * The best selling product option
+ * <p>
+ * This selects the product option that had most sales (most quantity sold across all orders).
+ */
+public class MostSoldOptionMetric implements Metric<ProductOptionWithProduct> {
 
-	public ProductOption run(List<ProcessedOrder> orders) {
+	public ProductOptionWithProduct process(List<ProcessedOrder> orders) {
 		return orders.stream()
 				.flatMap(e -> e.getItems().stream())
 				.collect(groupingBy(e -> e.getOption().getId()))
@@ -21,12 +28,23 @@ public class MostSoldOptionMetric {
 				.orElse(null);
 	}
 
+	@Override
+	public String print(ProductOptionWithProduct result) {
+		if (result == null) {
+			return "The best selling product option: not found, no orders with price";
+		}
+		return String.format("The best selling product option was option id %s (product option name: %s; product name: %s)",
+				result.getOption().getId(), result.getOption().getName(), result.getProduct().getName());
+	}
+
 	private class Option {
-		private ProductOption option;
+		private ProductOptionWithProduct option;
 		private int totalAmount;
 
 		public Option(List<ProcessingItem> items) {
-			this.option = items.get(0).getOption();
+			ProductOption option = items.get(0).getOption();
+			Product product = items.get(0).getProduct();
+			this.option = new ProductOptionWithProduct(option, product);
 			this.totalAmount = getSum(items);
 		}
 

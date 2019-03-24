@@ -2,39 +2,61 @@ package xyz.luan.faire.metrics;
 
 import lombok.Getter;
 import xyz.luan.faire.model.processed.ProcessedOrder;
+import xyz.luan.faire.model.processed.State;
 
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.IntStream;
 
 import static java.util.stream.Collectors.groupingBy;
 
-public class StateWitchPaysTheLessPerUnityMetric {
+/**
+ * This returns the state that, on average, pays the less for each unity of item.
+ */
+public class StateWitchPaysTheLessPerUnityMetric implements Metric<State> {
 
-	public String run(List<ProcessedOrder> orders) {
+	@Override
+	public State process(List<ProcessedOrder> orders) {
 		return orders.stream()
-				.collect(groupingBy(o -> o.getOrder().getAddress().getStateCode()))
+				.collect(groupingBy(o -> new State(o.getOrder().getAddress())))
 				.entrySet().stream()
-				.map(State::new)
-				.min(Comparator.comparing(State::getAveragePerItem))
-				.map(State::getState)
+				.map(StateOrders::new)
+				.min(Comparator.comparing(StateOrders::getAveragePerItem))
+				.map(StateOrders::getState)
 				.orElse(null);
 	}
 
+	@Override
+	public String print(State state) {
+		if (state == null) {
+			return "The state witch pays the less per unity on average: not found, no orders with price";
+		}
+		return String.format("The state witch pays the less per unity on average: %s (%s)", state.getName(), state.getCode());
+	}
+
 	@Getter
-	class State {
-		private String state;
+	class StateOrders {
+		private State state;
 		private double averagePerItem;
 
-		public State(Map.Entry<String, List<ProcessedOrder>> entry) {
+		public StateOrders(Map.Entry<State, List<ProcessedOrder>> entry) {
 			this.state = entry.getKey();
-			this.averagePerItem = entry.getValue().stream().map(this::foo).filter(Objects::nonNull).mapToDouble(Double::doubleValue).average().orElse(Double.MAX_VALUE);
+			this.averagePerItem = average(entry.getValue());
 		}
 
-		private Double foo(ProcessedOrder order) {
-			OptionalDouble optional = order.getItems().stream().mapToDouble(i -> i.getItem().getPriceCents()).average();
-			if (optional.isPresent()) {
-				return optional.getAsDouble();
-			}
-			return null;
+		public double average(List<ProcessedOrder> orders) {
+			int num = orders.stream().flatMapToInt(this::numerators).sum();
+			int dem = orders.stream().flatMapToInt(this::denominators).sum();
+			return (double) num / dem;
+		}
+
+		private IntStream numerators(ProcessedOrder order) {
+			return order.getItems().stream().mapToInt(i -> i.getItem().getQuantity() * i.getItem().getPriceCents());
+		}
+
+		private IntStream denominators(ProcessedOrder order) {
+			return order.getItems().stream().mapToInt(i -> i.getItem().getQuantity());
 		}
 	}
 }

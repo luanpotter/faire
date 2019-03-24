@@ -1,10 +1,10 @@
 package xyz.luan.faire.metrics;
 
 import org.junit.Test;
-import xyz.luan.faire.model.processed.ProcessedOrder;
-import xyz.luan.faire.model.processed.ProcessingItem;
 import xyz.luan.faire.model.order.Order;
 import xyz.luan.faire.model.order.OrderItem;
+import xyz.luan.faire.model.processed.ProcessedOrder;
+import xyz.luan.faire.model.processed.ProcessingItem;
 import xyz.luan.faire.model.product.ProductOption;
 
 import java.util.List;
@@ -39,7 +39,7 @@ public class LargestOrderByMoneyMetricTest {
 		ProcessedOrder po2 = new ProcessedOrder(o2, singletonList(item2));
 
 		List<ProcessedOrder> orders = asList(po1, po2);
-		Order order = new LargestOrderByMoneyMetric().run(orders);
+		Order order = new LargestOrderByMoneyMetric().process(orders);
 
 		assertThat(order.getId(), equalTo("o2"));
 	}

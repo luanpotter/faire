@@ -1,14 +1,22 @@
 package xyz.luan.faire.core;
 
 import xyz.luan.faire.metrics.*;
-import xyz.luan.faire.model.order.Carrier;
-import xyz.luan.faire.model.order.Order;
 import xyz.luan.faire.model.processed.ProcessedOrder;
-import xyz.luan.faire.model.product.ProductOption;
 
+import java.util.Arrays;
 import java.util.List;
 
+import static java.util.stream.Collectors.joining;
+
 public class FaireMetrics {
+
+	private static final List<Metric> METRICS = Arrays.asList(
+			new MostSoldOptionMetric(),
+			new LargestOrderByMoneyMetric(),
+			new StateWithMostOrdersMetric(),
+			new CheapestCarrierPerQuantityMetrics(),
+			new StateWitchPaysTheLessPerUnityMetric()
+	);
 
 	private List<ProcessedOrder> orders;
 
@@ -16,20 +24,11 @@ public class FaireMetrics {
 		this.orders = orders;
 	}
 
+	public String process() {
+		return METRICS.stream().map(m -> m.run(orders)).collect(joining("\n"));
+	}
+
 	public void run() {
-		ProductOption mostSoldOption = new MostSoldOptionMetric().run(orders);
-		System.out.println("The best selling product option: " + mostSoldOption.getId());
-
-		Order largestOrderByMoney = new LargestOrderByMoneyMetric().run(orders);
-		System.out.println("The largest order by dollar amount: " + largestOrderByMoney.getId());
-
-		String state = new StateWithMostOrdersMetric().run(orders);
-		System.out.println("The state with the most orders: " + state);
-
-		Carrier carrier = new CheapestCarrierPerQuantityMetrics().run(orders);
-		System.out.println("The on average cheapest carrier per quantity: " + carrier);
-
-		String statePayLess = new StateWitchPaysTheLessPerUnityMetric().run(orders);
-		System.out.println("The state witch pays the less per unity on average: " + statePayLess);
+		System.out.println(process());
 	}
 }

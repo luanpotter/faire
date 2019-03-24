@@ -26,7 +26,7 @@ public class CheapestCarrierPerQuantityMetricsTest {
 				createOrder("o4", Carrier.FEDEX, 200, item(10))
 		);
 
-		Carrier state = new CheapestCarrierPerQuantityMetrics().run(orders);
+		Carrier state = new CheapestCarrierPerQuantityMetrics().process(orders);
 		assertThat(state, equalTo(Carrier.CANADA_POST));
 	}
 

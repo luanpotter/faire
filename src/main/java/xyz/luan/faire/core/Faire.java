@@ -33,6 +33,7 @@ public class Faire {
 			List<ProcessedOrder> processed = fetchAndProcessOrders();
 			System.out.println("Processed " + processed.size() + " entries.");
 
+			System.out.println("Running metrics...");
 			new FaireMetrics(processed).run();
 
 			System.out.println("The end.");
@@ -80,7 +81,7 @@ public class Faire {
 		List<Product> products = api.listProducts();
 
 		// MOCK add some products because they were mostly out of stock
-		products.forEach(p -> p.getOptions().forEach(o -> o.setAvailableQuantity(o.getAvailableQuantity() + 500)));
+		products.forEach(p -> p.getOptions().forEach(o -> o.setAvailableQuantity(10000)));
 
 		return products;
 	}

@@ -17,6 +17,9 @@ public class Address {
 
 	private String city;
 
+	@SerializedName("state")
+	private String state;
+
 	@SerializedName("state_code")
 	private String stateCode;
 
